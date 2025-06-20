@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Input Your BloFin User ID</title>
+  <style>
+    :root {
+      --bg-color: #1a2d3a;
+      --card-bg: #25344a;
+      --input-bg: #1a2333;
+      --button-bg: #ffb347;
+      --button-hover: #ffa500;
+      --button-text: #1a2d3a;
+      --text-main: #fff;
+      --text-blue: #4f8cff;
+      --text-muted: #bfc9d9;
+      --text-red: #ff4d4f;
+      --shadow: 0 8px 32px rgba(0,0,0,0.18);
+      --radius: 14px;
+      --transition: 0.18s cubic-bezier(.4,0,.2,1);
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: url('data:image/svg+xml;utf8,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><g opacity="0.12"><path d="M30 5 L40 20 L30 55 L20 20 Z" stroke="white" stroke-width="2" fill="none"/><line x1="10" y1="40" x2="50" y2="40" stroke="white" stroke-width="2"/></g></svg>');
+      background-repeat: repeat;
+      background-size: 80px 80px;
+      opacity: 0.13;
+      pointer-events: none;
+    }
+    .main-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      margin: 2.5rem auto 0 auto;
+      padding: 0 1rem 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      width: 100%;
+      padding: 1.2rem 1rem 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .card-title {
+      color: var(--text-blue);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      letter-spacing: 0.2px;
+    }
+    .uid-value {
+      color: var(--text-main);
+      font-size: 1.08rem;
+      font-weight: 600;
+      margin-bottom: 0.7rem;
+      margin-top: 0.2rem;
+      word-break: break-all;
+    }
+    .input-label {
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-bottom: 0.2rem;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+    .input-field {
+      padding: 0.9rem 1rem;
+      border-radius: 10px;
+      border: none;
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 1.08rem;
+      outline: none;
+      width: 100%;
+      margin-bottom: 1.1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      transition: box-shadow var(--transition), border-color var(--transition);
+      border: 2px solid transparent;
+      text-align: center;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .input-field:focus {
+      box-shadow: 0 0 0 2px var(--text-blue);
+      border-color: var(--text-blue);
+      background: #202c3d;
+    }
+    .cta-btn {
+      width: 100%;
+      padding: 1rem 0;
+      font-size: 1.13rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      background: var(--button-bg);
+      color: var(--button-text);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: background var(--transition), transform var(--transition);
+      margin: 0.7rem auto 0 auto;
+      letter-spacing: 0.5px;
+      outline: none;
+    }
+    .cta-btn:hover, .cta-btn:focus {
+      background: var(--button-hover);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .divider {
+      width: 100%;
+      height: 7px;
+      background: #182334;
+      margin: 1.2rem 0 1.1rem 0;
+      border-radius: 6px;
+      border: none;
+    }
+    /* Error Section */
+    .error-section {
+      background: #222b3a;
+      border-radius: 10px;
+      border-left: 4px solid var(--text-red);
+      color: var(--text-main);
+      margin-bottom: 1.2rem;
+      margin-top: 0.5rem;
+      padding: 1.1rem 1rem 1rem 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      animation: fadeIn 0.5s;
+    }
+    .error-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--text-red);
+      font-weight: 700;
+      font-size: 1.07rem;
+      margin-bottom: 0.5rem;
+    }
+    .error-header .icon-x {
+      font-size: 1.4rem;
+      margin-right: 0.2em;
+    }
+    .error-desc {
+      color: var(--text-red);
+      font-size: 1.01rem;
+      margin-bottom: 0.7rem;
+      margin-left: 2.1rem;
+    }
+    .error-list {
+      margin-left: 2.1rem;
+      margin-bottom: 0.7rem;
+    }
+    .error-list .error-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+      font-size: 0.99rem;
+    }
+    .error-list .icon-num {
+      background: #2e3e5c;
+      color: #bfc9d9;
+      border-radius: 5px;
+      font-size: 0.95rem;
+      padding: 0 0.5em;
+      font-weight: 700;
+      min-width: 1.5em;
+      text-align: center;
+      margin-top: 2px;
+    }
+    .error-list a {
+      color: #4f8cff;
+      text-decoration: underline;
+      word-break: break-all;
+    }
+    /* Info Section */
+    .info-section {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      padding: 1.1rem 1rem 1rem 1rem;
+      background: #22304a;
+      color: var(--text-main);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .info-section .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.7rem;
+      font-size: 0.98rem;
+    }
+    .info-section .icon-num {
+      background: #2e3e5c;
+      color: #bfc9d9;
+      border-radius: 5px;
+      font-size: 0.95rem;
+      padding: 0 0.5em;
+      font-weight: 700;
+      min-width: 1.5em;
+      text-align: center;
+      margin-top: 2px;
+    }
+    .info-section .icon-warn {
+      color: #ffb347;
+      font-size: 1.1rem;
+      margin-right: 0.3em;
+    }
+    .info-section .icon-mail {
+      color: #4f8cff;
+      font-size: 1.1rem;
+      margin-right: 0.3em;
+    }
+    .info-section a {
+      color: #4f8cff;
+      text-decoration: underline;
+      word-break: break-all;
+    }
+    @media (max-width: 500px) {
+      .main-container {
+        max-width: 98vw;
+        padding: 0 0.2rem 1.2rem 0.2rem;
+      }
+      .card {
+        padding: 1rem 0.5rem 1rem 0.5rem;
+      }
+      .cta-btn, .input-field {
+        font-size: 1rem;
+        padding: 0.85rem 0.7rem;
+      }
+      .error-section, .info-section {
+        padding: 0.7rem 0.5rem 0.7rem 0.5rem;
+        font-size: 0.97rem;
+      }
+      .divider {
+        height: 5px;
+        margin: 1rem 0 1rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="card" id="card">
+      <div class="card-title">Input Your BloFin User ID</div>
+      <form id="uidForm" autocomplete="off">
+        <input class="input-field" type="text" id="userId" placeholder="Enter your user ID" maxlength="32" autocomplete="off">
+        <button class="cta-btn" type="submit">Verify</button>
+      </form>
+      <div class="divider"></div>
+      <div class="info-section" id="infoSection">
+        <div class="info-row">
+          <span class="icon-num">2</span>
+          <span>Verify that you have entered the correct UID, which can be found on your profile page</span>
+        </div>
+        <div class="info-row">
+          <span class="icon-warn">❗</span>
+          <span>
+            <b>NOTE:</b> Once you have checked and are certain of the above conditions, please re-enter your Blofin UID.
+          </span>
+        </div>
+        <div class="info-row">
+          <span class="icon-warn">❗</span>
+          <span>
+            Note: If the issue persists, please don't hesitate to reach out to us at
+          </span>
+        </div>
+        <div class="info-row">
+          <span class="icon-mail">✉️</span>
+          <a href="mailto:support@gemhunters.co">support@gemhunters.co</a>
+        </div>
+      </div>
+      <div class="error-section" id="errorSection" style="display:none;">
+        <div class="uid-value" id="uidValue"></div>
+        <div class="error-header">
+          <span class="icon-x">❌</span>
+          Could not verify the provided UID with GemHunters referral link
+        </div>
+        <div class="error-desc">
+          Could not verify the provided UID with GemHunters referral link
+        </div>
+        <div class="error-list">
+          <div class="error-item">
+            <span class="icon-num">1</span>
+            <span>
+              Ensure that you have signed up using the
+              <a href="#" target="_blank">GemHunters Referral Link</a>
+            </span>
+          </div>
+          <div class="error-item">
+            <span class="icon-num">2</span>
+            <span>
+              Verify that you have entered the correct UID, which can be found on your profile page
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Simulate BloFin endpoint call
+    async function fetchAffiliateData(uid) {
+      // Simulate network delay
+      await new Promise(res => setTimeout(res, 700));
+      // Simulate: only '123456789' is valid, others are not
+      if (uid === '123456789') {
+        return { valid: true, data: { uid, affiliate: true } };
+      }
+      return { valid: false, data: null };
+    }
+
+    const form = document.getElementById('uidForm');
+    const infoSection = document.getElementById('infoSection');
+    const errorSection = document.getElementById('errorSection');
+    const uidValue = document.getElementById('uidValue');
+    const userIdInput = document.getElementById('userId');
+    const ctaBtn = form.querySelector('.cta-btn');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const uid = userIdInput.value.trim();
+      if (!uid) {
+        userIdInput.focus();
+        return;
+      }
+      ctaBtn.disabled = true;
+      ctaBtn.textContent = 'Verifying...';
+      infoSection.style.display = 'none';
+      errorSection.style.display = 'none';
+
+      // Simulate endpoint call
+      const result = await fetchAffiliateData(uid);
+
+      if (result.valid) {
+        errorSection.style.display = 'none';
+        infoSection.style.display = 'block';
+        userIdInput.value = '';
+        ctaBtn.textContent = 'Verify';
+        ctaBtn.disabled = false;
+        alert('UID verified successfully!');
+      } else {
+        infoSection.style.display = 'none';
+        errorSection.style.display = 'block';
+        uidValue.textContent = uid;
+        ctaBtn.textContent = 'Verify';
+        ctaBtn.disabled = false;
+      }
+    });
+
+    // Hide error/info when user starts typing again
+    userIdInput.addEventListener('input', function() {
+      errorSection.style.display = 'none';
+      infoSection.style.display = 'block';
+    });
+  </script>
+</body>
+</html>

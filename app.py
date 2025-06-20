@@ -1,0 +1,60 @@
+import logging
+from telegram import Update
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    MessageHandler,
+    filters,
+    ChatMemberHandler,
+    CallbackQueryHandler    
+)
+from db.database import init_db, close_connection
+from configs import BOT_TOKEN
+from bot.command import start_handler, verification, bot_removed, download_command
+from bot.task import background_checkup_task
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.WARNING)
+
+
+
+async def background_task(context):
+    """
+    Task to be scheduled in the JobQueue.
+    Logs admin IDs of the private channel every 30 minutes.
+    """
+    logger.info("Running cleanup task...")
+    try:
+        print("this task is scheduled to run every 30 minutes")
+        await background_checkup_task(context)
+    except Exception as e:
+        logger.error(f"Failed to retrieve chat administrators: {e}")
+        
+        
+
+async def init_db_(application):
+    await init_db()
+    print("✅ Database connected.")
+
+async def close_connection_(application):
+    await close_connection()
+    print("🔌 Database disconnected.")
+
+def main() -> None:
+    application = (
+    Application.builder().token(BOT_TOKEN).post_init(init_db_) .post_shutdown(close_connection_).build())
+    application.add_handler(CommandHandler("start", start_handler))
+    application.add_handler(CommandHandler("download", download_command))
+    application.add_handler(ChatMemberHandler(bot_removed, chat_member_types=ChatMemberHandler.MY_CHAT_MEMBER))
+    application.add_handler(ChatMemberHandler(verification, ChatMemberHandler.CHAT_MEMBER))
+    
+    job_queue = application.job_queue
+    job = job_queue.run_repeating(
+        background_task, interval=1800, first=0 
+    )
+    logger.info("Scheduled cleanup task to run every 30 minutes.")
+    
+    logger.info("Starting the bot...")
+    application.run_polling(allowed_updates=Update.ALL_TYPES, drop_pending_updates=True)

@@ -1,0 +1,12 @@
+python-telegram-bot[job-queue]
+python-telegram-bot
+requests
+pymongo
+python-dotenv
+fastapi 
+uvicorn
+bs4
+web3
+tronpy
+jinja2
+blofin
