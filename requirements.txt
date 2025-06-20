@@ -11,3 +11,4 @@ tronpy
 jinja2
 blofin
 databases
+aiomysql
