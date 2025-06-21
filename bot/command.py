@@ -210,6 +210,30 @@ async def warn_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
     user_data[user.id]['state'] = f'warn|{args}'
     
+
+
+
+async def kick_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+    user_data = context.user_data
+    if user.username not in ['JamyMe', 'CryptoPushak', 'bitaddict', 'SirCharbel','hodge100', 'anthonydab', 'develord346']:
+        return await update.message.reply_text("❌ You are not authorized to use this command.")
+    
+    if user.id not in user_data:
+        user_data[user.id] = {}
+        
+    args = context.args if context.args else []
+    print(args)
+    if not args:
+        return await update.message.reply_text("❌ Usage: `/unkick <user_id or username or blofin_uuid>`", parse_mode="Markdown")
+    
+    if len(args) > 2: 
+        await update.message.reply_text("📢 Please enter the message to notify them after being removed from the group .")
+    else:
+        await update.message.reply_text("📢 Please enter the message to notify the user after being removed from the group.")
+        
+    user_data[user.id]['state'] = f'kick|{args}'
+    
     
 
 async def unkick_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -227,9 +251,9 @@ async def unkick_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE
         return await update.message.reply_text("❌ Usage: `/unkick <user_id or username or blofin_uuid>`", parse_mode="Markdown")
     
     if len(args) > 2: 
-        await update.message.reply_text("📢 Please enter the message to notify them they have being re-added to the group .")
+        await update.message.reply_text("📢 Please enter the message to notify them that they have been re-added to the group..")
     else:
-        await update.message.reply_text("📢 Please enter the message to send to the user after being re-added to the group.")
+        await update.message.reply_text("📢 Please enter the message to notify the user after being re-added to the group.")
         
     user_data[user.id]['state'] = f'unkick|{args}'
         
