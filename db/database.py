@@ -45,7 +45,7 @@ async def find_user_ids(identifiers: List[Union[str, int]]) -> List[str]:
     result_ids = []
     
     for identifier in identifiers:
-        identifier_str = str(identifier).strip()
+        identifier_str = str(identifier).replace("@","").strip() if identifier.startswith("@") and not identifier.isdigit() else str(identifier)
         query = """
             SELECT telegram_id FROM Users
             WHERE telegram_id = :exact
