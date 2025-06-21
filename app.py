@@ -10,7 +10,15 @@ from telegram.ext import (
 )
 from db.database import init_db, close_connection
 from configs import BOT_TOKEN
-from bot.command import start_handler, verification, bot_removed, download_command
+from bot.command import (
+    start_handler, 
+    verification, 
+    bot_removed,
+    download_command, 
+    handle_user_reply,
+    warn_command_func,
+    kick_command_func
+)
 from bot.task import background_checkup_task
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -47,9 +55,11 @@ def main() -> None:
     Application.builder().token(BOT_TOKEN).post_init(init_db_) .post_shutdown(close_connection_).build())
     application.add_handler(CommandHandler("start", start_handler))
     application.add_handler(CommandHandler("download", download_command))
+    application.add_handler(CommandHandler("warn", warn_command_func))
+    application.add_handler(CommandHandler("kick", kick_command_func))
     application.add_handler(ChatMemberHandler(bot_removed, chat_member_types=ChatMemberHandler.MY_CHAT_MEMBER))
     application.add_handler(ChatMemberHandler(verification, ChatMemberHandler.CHAT_MEMBER))
-    
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_user_reply))
     job_queue = application.job_queue
     job = job_queue.run_repeating(
         background_task, interval=1800, first=0 

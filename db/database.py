@@ -1,6 +1,5 @@
 from databases import Database
-from datetime import datetime
-from datetime import time
+from typing import List, Union, Dict
 from configs import DATABASE_URL
 
 database = Database(DATABASE_URL)
@@ -35,3 +34,33 @@ async def toggle_is_member_field(user_id):
     except Exception as e:
         print(f"Error toggling is_group_member for user {user_id}: {e}")
         return False
+    
+    
+    
+    
+async def find_user_ids(identifiers: List[Union[str, int]]) -> List[str]:
+    if not identifiers:
+        return []
+
+    result_ids = []
+    
+    for identifier in identifiers:
+        identifier_str = str(identifier).strip()
+        query = """
+            SELECT telegram_id FROM Users
+            WHERE telegram_id = :exact
+               OR blofin_uuid = :exact
+               OR username = :exact
+            LIMIT 1
+        """
+
+        values = {
+            "exact": identifier_str
+        }
+
+        row = await database.fetch_one(query=query, values=values)
+        if row and row["telegram_id"]:
+            result_ids.append(str(row["telegram_id"]))
+
+    return result_ids
+
