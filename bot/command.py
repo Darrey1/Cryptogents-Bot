@@ -338,6 +338,7 @@ async def handle_user_reply(update: Update, context: CallbackContext):
                             print(f"⚠️ Could not send invite message to {int(uid)}: {e}")
                         
                 except Exception as e:
+                    #hi
                     print(f"❌ Failed to unkick/message {uid}: {e}")
                     failed_ids.append(uid)
 
