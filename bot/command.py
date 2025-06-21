@@ -212,7 +212,7 @@ async def warn_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     
 
-async def kick_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def unkick_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     user_data = context.user_data
     if user.username not in ['JamyMe', 'CryptoPushak', 'bitaddict', 'SirCharbel','hodge100', 'anthonydab', 'develord346']:
@@ -224,14 +224,14 @@ async def kick_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args if context.args else []
     print(args)
     if not args:
-        return await update.message.reply_text("❌ Usage: `/kick <user_id or username or blofin_uuid>`", parse_mode="Markdown")
+        return await update.message.reply_text("❌ Usage: `/unkick <user_id or username or blofin_uuid>`", parse_mode="Markdown")
     
     if len(args) > 2: 
-        await update.message.reply_text("📢 Please enter the message to broadcast to the users after being removed from the group.")
+        await update.message.reply_text("📢 Please enter the message to notify them they have being re-added to the group .")
     else:
-        await update.message.reply_text("📢 Please enter the message to send to the user after being removed from the group.")
+        await update.message.reply_text("📢 Please enter the message to send to the user after being re-added to the group.")
         
-    user_data[user.id]['state'] = f'kick|{args}'
+    user_data[user.id]['state'] = f'unkick|{args}'
         
 
 
@@ -247,7 +247,7 @@ async def handle_user_reply(update: Update, context: CallbackContext):
     except Exception:
         state_text = [None, None]
 
-    if state_text[0] in ['warn', 'kick']:
+    if state_text[0] in ['warn', 'kick', 'unkick']:
         if chat.type != 'private':
             return
         
@@ -310,5 +310,47 @@ async def handle_user_reply(update: Update, context: CallbackContext):
             return await context.bot.send_message(
                 chat_id=chat.id,
                 parse_mode="HTML",
-                text="✅ All the users have been removed from the group and also being notify."
+                text="✅ Users have been removed from the group and also being notify."
+            )
+
+
+        elif state_text[0] == 'unkick':
+            failed_ids = []
+
+            for uid in warn_user_ids:
+                try:
+                    member_status = await context.bot.get_chat_member(GROUP_CHAT_ID, int(uid))
+                    if member_status.status not in ["administrator", "creator"]:
+                        await context.bot.unban_chat_member(GROUP_CHAT_ID, int(uid))
+                        invite_link = None
+                        try:
+                            invite_link = await context.bot.export_chat_invite_link(chat_id=GROUP_CHAT_ID)
+                        except:
+                            pass  # Ignore if unable to generate invite link
+
+                        message = f"{message}.\n\n"
+                        if invite_link:
+                            message += f'<a href="{invite_link}">Please click here to join back</a>'
+
+                        try:
+                           await context.bot.send_message(chat_id=int(uid), parse_mode="HTML", text=f"🎉 {message}")
+                        except Exception as e:
+                            print(f"⚠️ Could not send invite message to {int(uid)}: {e}")
+                        
+                except Exception as e:
+                    print(f"❌ Failed to unkick/message {uid}: {e}")
+                    failed_ids.append(uid)
+
+            context.user_data[user.id]['state'] = None
+
+            if failed_ids:
+                return await context.bot.send_message(
+                    chat_id=chat.id,
+                    parse_mode="HTML",
+                    text=f"⚠️ Failed to unkick or notify {len(failed_ids)} user(s)."
+                )
+            return await context.bot.send_message(
+                chat_id=chat.id,
+                parse_mode="HTML",
+                text="✅ Users have been enable to join the group and also being notify."
             )
