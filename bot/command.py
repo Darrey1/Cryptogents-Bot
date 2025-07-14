@@ -160,7 +160,18 @@ async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return await update.message.reply_text("❌ You are not authorized to use this command.")
 
     try:
-        query = "SELECT * FROM Users"
+        query = """
+        SELECT * FROM Users
+        WHERE 
+            id IS NOT NULL AND
+            email IS NOT NULL AND
+            username IS NOT NULL AND
+            telegram_id IS NOT NULL AND
+            blofin_uuid IS NOT NULL AND
+            is_group_member = TRUE AND
+            created_at IS NOT NULL AND
+            updated_at IS NOT NULL
+        """
         rows = await database.fetch_all(query)
 
         if not rows:
@@ -186,6 +197,55 @@ async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     except Exception as e:
         await update.message.reply_text(f"❌ Error generating CSV: {str(e)}")
+
+
+
+
+
+
+async def download_new_user_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+
+    if user.username not in ['JamyMe', 'CryptoPushak', 'bitaddict', 'SirCharbel','hodge100', 'anthonydab', 'develord346']:
+        return await update.message.reply_text("❌ You are not authorized to use this command.")
+
+    try:
+        query = """
+        SELECT * FROM Users
+        WHERE 
+            is_group_member = FALSE
+            OR blofin_uuid IS NULL
+            OR email IS NULL
+        """
+        rows = await database.fetch_all(query)
+
+        if not rows:
+            await update.message.reply_text("⚠️ No data found in the Users table.")
+            return
+        
+        columns = rows[0].keys()
+
+        output = io.StringIO()
+        writer = csv.DictWriter(output, fieldnames=columns)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow(dict(row))
+
+        output.seek(0)
+        filename = f"users_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+
+        await context.bot.send_document(
+            chat_id=update.effective_chat.id,
+            filename=filename,
+            document=io.BytesIO(output.getvalue().encode('utf-8'))
+        )
+
+    except Exception as e:
+        await update.message.reply_text(f"❌ Error generating CSV: {str(e)}")
+
+
+
+
         
         
 
