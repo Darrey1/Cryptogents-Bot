@@ -57,7 +57,7 @@ def main() -> None:
     Application.builder().token(BOT_TOKEN).post_init(init_db_) .post_shutdown(close_connection_).build())
     application.add_handler(CommandHandler("start", start_handler))
     application.add_handler(CommandHandler("download", download_command))
-    application.add_handler(CommandHandler("downlaod_new_user", download_new_user_command))
+    application.add_handler(CommandHandler("download2", download_new_user_command))
     application.add_handler(CommandHandler("warn", warn_command_func))
     application.add_handler(CommandHandler("kick", kick_command_func))
     application.add_handler(CommandHandler("unkick", unkick_command_func))
