@@ -41,15 +41,15 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 To Join:
 
-Step 1: Register with BloFin
-Step 2: Submit your Email Address
-Step 3: Gain Instant Access
+Step 1: Register with BloFin  
+Step 2: Submit your Email Address  
+Step 3: Gain Instant Access  
 
-🎥 Watch this quick guide:
+🎥 <a href="https://www.youtube.com/watch?v=HiNSaaEM1us">Watch this quick guide</a>
 
-👆 Then click "Join Crypto Gents" to access via the in-app browser.
-
+👇 Then click "Join Crypto Gents" to continue.
 """
+
 
         keyboard = [
                 [InlineKeyboardButton("Join Crypto Gents", web_app=WebAppInfo(url="https://web-production-99317.up.railway.app/"))]
@@ -57,6 +57,9 @@ Step 3: Gain Instant Access
         reply_markup = InlineKeyboardMarkup(keyboard)
         msg = await context.bot.send_message(chat_id=update.effective_chat.id, parse_mode="HTML", text=message,reply_markup=reply_markup)
         logger.info(f"Sent start message to {user.id} in chat {chat.id} at {datetime.now()}")
+        user_data[user.id][f'start_msg_{user.id}'] = msg.id
+            
+    except Exception as e:
         user_data[user.id][f'start_msg_{user.id}'] = msg.id
             
     except Exception as e:
