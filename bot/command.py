@@ -325,6 +325,8 @@ async def unkick_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE
 
 
 async def handle_user_reply(update: Update, context: CallbackContext):
+    if not update.message:  # Ignore non-message updates
+        return
     user = update.message.from_user
     chat = update.effective_chat
     print(f"{chat.title}-{chat.id} ")
