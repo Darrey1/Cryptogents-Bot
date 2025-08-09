@@ -24,7 +24,7 @@ from telegram.ext import  CallbackContext, ContextTypes
 from db.database import toggle_is_member_field, find_user_ids
 logger = logging.getLogger(__name__)
 
-from configs import GROUP_CHAT_ID, ADMIN_USER_ID
+from configs import GROUP_CHAT_ID, ADMIN_USER_ID,SOURCE_CHAT_ID, DEST_CHAT_ID
 from datetime import datetime
 
 async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -136,11 +136,11 @@ async def verification(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     if old_status in ["left", "kicked"] and new_status == "member":
         await toggle_is_member_field(user.id)
         print(f"✅ User joined: ID={user.id}, Username=@{user.username}, Name={user.full_name}")
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text=f"👋 Welcome <b>{user.full_name}</b>!",
-            parse_mode="HTML"
-        )
+        # await context.bot.send_message(
+        #     chat_id=chat_id,
+        #     text=f"👋 Welcome <b>{user.full_name}</b>!",
+        #     parse_mode="HTML"
+        # )
         
         
     elif old_status == "member" and new_status in ["left", "kicked"]:
@@ -148,7 +148,7 @@ async def verification(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         await toggle_is_member_field(user.id)
         await context.bot.send_message(
             chat_id=chat_id,
-            text=f"👋 <b>{user.full_name}</b> has left or was removed from the group.",
+            text=f"👋 <b>{user.username}</b> has left or was removed from the group.",
             parse_mode="HTML"
         )
         
@@ -327,6 +327,7 @@ async def unkick_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE
 async def handle_user_reply(update: Update, context: CallbackContext):
     user = update.message.from_user
     chat = update.effective_chat
+    print("chat id is ", chat.id)
 
     try:
         state = context.user_data[user.id]['state']
@@ -442,3 +443,16 @@ async def handle_user_reply(update: Update, context: CallbackContext):
                 parse_mode="HTML",
                 text="✅ Users have been enable to join the group and also being notify."
             )
+
+
+
+
+
+async def forward_images(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Forward images from source group to destination group."""
+    if update.effective_chat.id == SOURCE_CHAT_ID:
+        try:
+            await update.message.forward(chat_id=DEST_CHAT_ID)
+            print(f"✅ Forwarded image from {SOURCE_CHAT_ID} to {DEST_CHAT_ID}")
+        except Exception as e:
+            print(f"⚠ Error forwarding image: {e}")

@@ -19,9 +19,11 @@ from bot.command import (
     warn_command_func,
     kick_command_func,
     unkick_command_func,
-    download_new_user_command
+    download_new_user_command,
+    forward_images
 )
 from bot.task import background_checkup_task
+from configs import SOURCE_CHAT_ID
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
@@ -63,6 +65,7 @@ def main() -> None:
     application.add_handler(CommandHandler("unkick", unkick_command_func))
     application.add_handler(ChatMemberHandler(bot_removed, chat_member_types=ChatMemberHandler.MY_CHAT_MEMBER))
     application.add_handler(ChatMemberHandler(verification, ChatMemberHandler.CHAT_MEMBER))
+    application.add_handler(MessageHandler(filters.Chat(SOURCE_CHAT_ID) & filters.PHOTO, forward_images))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_user_reply))
     job_queue = application.job_queue
     job = job_queue.run_repeating(
