@@ -146,11 +146,11 @@ async def verification(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     elif old_status == "member" and new_status in ["left", "kicked"]:
         print(f"❌ User left or was removed: ID={user.id}, Username=@{user.username}, Name={user.full_name}")
         await toggle_is_member_field(user.id)
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text=f"👋 <b>{user.username}</b> has left or was removed from the group.",
-            parse_mode="HTML"
-        )
+        # await context.bot.send_message(
+        #     chat_id=chat_id,
+        #     text=f"👋 <b>{user.username}</b> has left or was removed from the group.",
+        #     parse_mode="HTML"
+        # )
         
         
         
@@ -327,7 +327,7 @@ async def unkick_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE
 async def handle_user_reply(update: Update, context: CallbackContext):
     user = update.message.from_user
     chat = update.effective_chat
-    print("chat id is ", chat.id)
+    print(f"{chat.title}-{chat.id} ")
 
     try:
         state = context.user_data[user.id]['state']
