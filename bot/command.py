@@ -24,7 +24,7 @@ from telegram.ext import  CallbackContext, ContextTypes
 from db.database import toggle_is_member_field, find_user_ids
 logger = logging.getLogger(__name__)
 
-from configs import GROUP_CHAT_ID, ADMIN_USER_ID,SOURCE_CHAT_ID, DEST_CHAT_ID
+from configs import GROUP_CHAT_ID, ADMIN_USER_ID,SOURCE_CHAT_ID, DEST_CHAT_ID, SOURCE_CHAT_TITLE
 from datetime import datetime
 
 async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -452,7 +452,8 @@ async def handle_user_reply(update: Update, context: CallbackContext):
 
 async def forward_images(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Forward images from source group to destination group."""
-    if update.effective_chat.id == SOURCE_CHAT_ID:
+    print(str(update.effective_chat.title).upper())
+    if update.effective_chat.id == SOURCE_CHAT_ID and str(update.effective_chat.title).upper() == SOURCE_CHAT_TITLE:
         try:
             await update.message.forward(chat_id=DEST_CHAT_ID)
             print(f"✅ Forwarded image from {SOURCE_CHAT_ID} to {DEST_CHAT_ID}")
