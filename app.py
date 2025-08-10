@@ -68,10 +68,11 @@ def main() -> None:
     application.add_handler(MessageHandler(filters.Chat(SOURCE_CHAT_ID) & filters.PHOTO, forward_images))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_user_reply))
     job_queue = application.job_queue
+    time_to_sleep =  24 * 60 * 60
     job = job_queue.run_repeating(
-        background_task, interval=1800, first=0 
+        background_task, interval=time_to_sleep, first=0 
     )
-    logger.info("Scheduled cleanup task to run every 30 minutes.")
+    logger.info("Scheduled cleanup task to run every 23 hours.")
     
     logger.info("Starting the bot...")
     application.run_polling(allowed_updates=Update.ALL_TYPES, drop_pending_updates=True)

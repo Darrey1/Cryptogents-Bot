@@ -452,8 +452,9 @@ async def handle_user_reply(update: Update, context: CallbackContext):
 
 async def forward_images(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Forward images from source group to destination group."""
-    print(str(update.effective_chat.title).upper())
-    if update.effective_chat.id == SOURCE_CHAT_ID and str(update.effective_chat.title).upper() == SOURCE_CHAT_TITLE:
+    print("Thread ID:", update.message.message_thread_id)
+
+    if update.effective_chat.id == SOURCE_CHAT_ID and update.message.message_thread_id == 10688:
         try:
             await update.message.forward(chat_id=DEST_CHAT_ID)
             print(f"✅ Forwarded image from {SOURCE_CHAT_ID} to {DEST_CHAT_ID}")
