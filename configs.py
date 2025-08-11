@@ -9,4 +9,14 @@ SOURCE_CHAT_TITLE =  'RESULTS HUB'
 DEST_CHAT_ID = -1002777900816 
 
 
-BROADCAST_MESSAGE = 
+BROADCAST_MESSAGE = """
+📣 THESE COULD BE YOUR RESULTS 
+
+Daily breakdowns, Expert strategies, Gems before the crowd...
+
+FREE FULL membership access when you join us with Blofin or Kucoin 
+
+Join the winners:
+https://t.me/CryptoGentsFree_Bot
+
+"""
