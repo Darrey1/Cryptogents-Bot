@@ -14,9 +14,12 @@ BROADCAST_MESSAGE = """
 
 Daily breakdowns, Expert strategies, Gems before the crowd...
 
-FREE FULL membership access when you join us with Blofin or Kucoin 
+FREE FULL membership access when you join us with Blofin
 
 Join the winners:
 https://t.me/CryptoGentsFree_Bot
+
+Get to know the traders behind all this on our website:
+https://www.cryptogents.io/
 
 """
