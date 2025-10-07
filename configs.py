@@ -14,7 +14,8 @@ BROADCAST_MESSAGE = """
 
 Daily breakdowns, Expert strategies, Gems before the crowd...
 
-FREE FULL membership access when you join us with Blofin
+FREE FULL membership access when you join us
+ with Blofin or Bydfi
 
 Join the winners:
 https://t.me/CryptoGentsFree_Bot
