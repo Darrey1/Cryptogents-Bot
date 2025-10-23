@@ -44,7 +44,7 @@ To Join:
 Step 1: Register with BloFin/Kucoin
 Step 2: Submit your Email Address  
 Step 3: Gain Instant Access  
-🎥 <a href="https://www.youtube.com/watch?v=8Aj8n_CpETo">Watch this quick guide</a>
+🎥 <a href="https://www.youtube.com/watch?v=j0bg5GFmSNY">Watch this quick guide</a>
 
 👇 Then click "Join Crypto Gents" to continue.
 """
