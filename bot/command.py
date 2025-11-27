@@ -142,7 +142,7 @@ async def verification(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     print(f"User {user.id} changed status from {old_status} to {new_status} in chat {chat_id}")
     if old_status in ["left", "kicked"] and new_status == "member":
         if chat_id == GROUP_CHAT_ID: await toggle_is_member_field(user.id)
-        
+
         print(f"✅ User joined: ID={user.id}, Username=@{user.username}, Name={user.full_name}")
         username = f"@{user.username}" if user.username else "No username"
         message = f"""
@@ -164,7 +164,7 @@ async def verification(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         await toggle_is_member_field(user.id)
         await context.bot.send_message(
             chat_id=LOGS_CHAT_ID,
-            text=f"👋 <b>@{user.username}</b> has left or was removed from the group.",
+            text=f"👋 <b>@{user.username}</b> has left or was removed from the {escape(group_info.title)} group.",
             parse_mode="HTML"
         )
         
