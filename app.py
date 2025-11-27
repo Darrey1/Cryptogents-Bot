@@ -20,7 +20,8 @@ from bot.command import (
     kick_command_func,
     unkick_command_func,
     download_new_user_command,
-    forward_images
+    forward_images,
+    command_info
 )
 from bot.task import background_checkup_task
 from configs import SOURCE_CHAT_ID
@@ -63,6 +64,7 @@ def main() -> None:
     application.add_handler(CommandHandler("warn", warn_command_func))
     application.add_handler(CommandHandler("kick", kick_command_func))
     application.add_handler(CommandHandler("unkick", unkick_command_func))
+    application.add_handler(CommandHandler("commands", command_info))
     application.add_handler(ChatMemberHandler(bot_removed, chat_member_types=ChatMemberHandler.MY_CHAT_MEMBER))
     application.add_handler(ChatMemberHandler(verification, ChatMemberHandler.CHAT_MEMBER))
     application.add_handler(MessageHandler(filters.Chat(SOURCE_CHAT_ID) & filters.PHOTO, forward_images))

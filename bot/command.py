@@ -304,7 +304,7 @@ async def kick_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args if context.args else []
     print(args)
     if not args:
-        return await update.message.reply_text("❌ Usage: `/unkick <user_id or username or blofin_uuid>`", parse_mode="Markdown")
+        return await update.message.reply_text("❌ Usage: `/kick <user_id or username or blofin_uuid>`", parse_mode="Markdown")
     
     if len(args) > 2: 
         await update.message.reply_text("📢 Please enter the message to notify them after being removed from the group .")
@@ -335,6 +335,24 @@ async def unkick_command_func(update: Update, context: ContextTypes.DEFAULT_TYPE
         await update.message.reply_text("📢 Please enter the message to notify the user after being re-added to the group.")
         
     user_data[user.id]['state'] = f'unkick|{args}'
+
+
+
+async def command_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+    if user.username not in ['JamyMe', 'CryptoPushak', 'bitaddict', 'SirCharbel','hodge100', 'anthonydab', 'develord346']:
+        return await update.message.reply_text("❌ You are not authorized to use this command.")
+
+    command_descriptions = {
+        "warn": "/warn <user_id or username or blofin_uuid> - Warn a user with a custom message.",
+        "kick": "/kick <user_id or username or blofin_uuid> - Remove a user from the group with a notification message.",
+        "unkick": "/unkick <user_id or username or blofin_uuid> - Re-add a user to the group with a notification message.",
+        "download": "/download - Download the complete user database as a CSV file.",
+        "download2": "/download2 - Download new or incomplete user data as a CSV file.",
+        "start": "/start - Start interaction with the bot and receive a welcome message."
+    }
+
+    await update.message.reply_text(text="Available Commands:\n" + "\n".join([f"/{cmd} - {desc}" for cmd, desc in command_descriptions.items()]))
         
 
 
