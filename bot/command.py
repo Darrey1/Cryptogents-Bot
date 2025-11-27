@@ -14,6 +14,7 @@ from telegram import (Update,
     ChatMemberUpdated
     
 )
+from html import escape
 import csv
 import io
 import ast
@@ -125,21 +126,30 @@ async def bot_removed(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def verification(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a captcha for verification when a new member joins."""
+    if not update.chat_member:
+        return
     chat = update.effective_chat
     chat_id = chat.id
     old_status = update.chat_member.old_chat_member.status
     new_status = update.chat_member.new_chat_member.status
     member = update.chat_member.new_chat_member
     user = member.user
+    if chat_id not in [GROUP_CHAT_ID, SOURCE_CHAT_ID, DEST_CHAT_ID]:
+        return
+
+    group_info = await context.bot.get_chat(chat_id)
+
     print(f"User {user.id} changed status from {old_status} to {new_status} in chat {chat_id}")
     if old_status in ["left", "kicked"] and new_status == "member":
-        await toggle_is_member_field(user.id)
+        if chat_id == GROUP_CHAT_ID: await toggle_is_member_field(user.id)
+        
         print(f"✅ User joined: ID={user.id}, Username=@{user.username}, Name={user.full_name}")
+        username = f"@{user.username}" if user.username else "No username"
         message = f"""
-✅ New User joined the group: 
+✅ New User joined the {escape(group_info.title)} group:
 
 <b>ID</b>=<code>{user.id}</code>
-<b>Username</b>=@{user.username}
+<b>Username</b>={username}
 <b>Name</b>=<code>{user.full_name}</code>
         """
         await context.bot.send_message(
