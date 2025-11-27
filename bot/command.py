@@ -24,7 +24,7 @@ from telegram.ext import  CallbackContext, ContextTypes
 from db.database import toggle_is_member_field, find_user_ids
 logger = logging.getLogger(__name__)
 
-from configs import GROUP_CHAT_ID, ADMIN_USER_ID,SOURCE_CHAT_ID, DEST_CHAT_ID, SOURCE_CHAT_TITLE
+from configs import GROUP_CHAT_ID, ADMIN_USER_ID,SOURCE_CHAT_ID, DEST_CHAT_ID, SOURCE_CHAT_TITLE, LOGS_CHAT_ID
 from datetime import datetime
 
 async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -135,21 +135,28 @@ async def verification(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     if old_status in ["left", "kicked"] and new_status == "member":
         await toggle_is_member_field(user.id)
         print(f"✅ User joined: ID={user.id}, Username=@{user.username}, Name={user.full_name}")
-        # await context.bot.send_message(
-        #     chat_id=chat_id,
-        #     text=f"👋 Welcome <b>{user.full_name}</b>!",
-        #     parse_mode="HTML"
-        # )
+        message = f"""
+✅ New User joined the group: 
+
+<b>ID</b>=<code>{user.id}</code>
+<b>Username</b>=@{user.username}
+<b>Name</b>=<code>{user.full_name}</code>
+        """
+        await context.bot.send_message(
+            chat_id=LOGS_CHAT_ID,
+            text=message,
+            parse_mode="HTML"
+        )
         
         
     elif old_status == "member" and new_status in ["left", "kicked"]:
         print(f"❌ User left or was removed: ID={user.id}, Username=@{user.username}, Name={user.full_name}")
         await toggle_is_member_field(user.id)
-        # await context.bot.send_message(
-        #     chat_id=chat_id,
-        #     text=f"👋 <b>{user.username}</b> has left or was removed from the group.",
-        #     parse_mode="HTML"
-        # )
+        await context.bot.send_message(
+            chat_id=LOGS_CHAT_ID,
+            text=f"👋 <b>@{user.username}</b> has left or was removed from the group.",
+            parse_mode="HTML"
+        )
         
         
         
