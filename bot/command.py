@@ -140,11 +140,10 @@ async def verification(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     group_info = await context.bot.get_chat(chat_id)
 
     print(f"User {user.id} changed status from {old_status} to {new_status} in chat {chat_id}")
+    username = f"@{user.username}" if user.username else "No username"
     if old_status in ["left", "kicked"] and new_status == "member":
         if chat_id == GROUP_CHAT_ID: await toggle_is_member_field(user.id)
-
-        print(f"✅ User joined: ID={user.id}, Username=@{user.username}, Name={user.full_name}")
-        username = f"@{user.username}" if user.username else "No username"
+        
         message = f"""
 ✅ New User joined the {escape(group_info.title)} group:
 
@@ -160,11 +159,19 @@ async def verification(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         
         
     elif old_status == "member" and new_status in ["left", "kicked"]:
-        print(f"❌ User left or was removed: ID={user.id}, Username=@{user.username}, Name={user.full_name}")
-        await toggle_is_member_field(user.id)
+        if chat_id == GROUP_CHAT_ID: await toggle_is_member_field(user.id)
+
+        message = f"""
+👋 <b>{user.full_name}</b> has left or was removed from the {escape(group_info.title)} group:
+
+<b>ID</b>=<code>{user.id}</code>
+<b>Username</b>={username}
+<b>Name</b>=<code>{user.full_name}</code>
+        """
+
         await context.bot.send_message(
             chat_id=LOGS_CHAT_ID,
-            text=f"👋 <b>@{user.username}</b> has left or was removed from the {escape(group_info.title)} group.",
+            text=message,
             parse_mode="HTML"
         )
         
@@ -352,7 +359,7 @@ async def command_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "start": "/start - Start interaction with the bot and receive a welcome message."
     }
 
-    await update.message.reply_text(text="Available Commands:\n" + "\n".join([f"/{cmd} - {desc}" for cmd, desc in command_descriptions.items()]))
+    await update.message.reply_text(text="Available Commands:\n" + "\n".join([f"/{cmd} - {desc}\n" for cmd, desc in command_descriptions.items()]))
         
 
 
