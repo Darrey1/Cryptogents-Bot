@@ -12,3 +12,4 @@ jinja2
 blofin
 databases
 aiomysql
+cryptography

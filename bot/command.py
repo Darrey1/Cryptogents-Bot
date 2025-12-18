@@ -182,7 +182,7 @@ async def verification(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
 
-    if user.username not in ['JamyMe', 'CryptoPushak', 'bitaddict', 'SirCharbel','hodge100', 'anthonydab', 'develord346']:
+    if user.username not in ['JamyMe', 'CryptoPushak', 'bitaddict', 'SirCharbel','hodge100', 'anthonydab', 'nexalware']:
         return await update.message.reply_text("❌ You are not authorized to use this command.")
 
     try:
@@ -193,7 +193,7 @@ async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             email IS NOT NULL AND
             username IS NOT NULL AND
             telegram_id IS NOT NULL AND
-            blofin_uuid IS NOT NULL AND
+            exchange IS NOT NULL AND
             is_group_member = TRUE AND
             created_at IS NOT NULL AND
             updated_at IS NOT NULL
@@ -240,7 +240,6 @@ async def download_new_user_command(update: Update, context: ContextTypes.DEFAUL
         SELECT * FROM Users
         WHERE 
             is_group_member = FALSE
-            OR blofin_uuid IS NULL
             OR email IS NULL
         """
         rows = await database.fetch_all(query)
