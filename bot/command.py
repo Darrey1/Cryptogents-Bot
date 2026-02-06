@@ -241,7 +241,7 @@ async def download_new_user_command(update: Update, context: ContextTypes.DEFAUL
         SELECT *
         FROM Users
         WHERE
-            is_group_member IS TRUE
+            is_group_member IS NOT TRUE
             AND (
                 email IS NULL
                 OR telegram_id IS NULL
