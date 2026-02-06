@@ -187,15 +187,17 @@ async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         query = """
-        SELECT * FROM Users
-        WHERE 
-            id IS NOT NULL AND
-            email IS NOT NULL AND
-            telegram_id IS NOT NULL AND
-            exchange IS NOT NULL AND
-            is_group_member = TRUE AND
-            created_at IS NOT NULL AND
-            updated_at IS NOT NULL
+        SELECT *
+        FROM Users
+        WHERE
+            id IS NOT NULL
+            AND email IS NOT NULL
+            AND telegram_id IS NOT NULL
+            AND (
+                bydefi_id IS NOT NULL
+                OR blofin_uuid IS NOT NULL
+            );
+
         """
         rows = await database.fetch_all(query)
 
@@ -236,10 +238,19 @@ async def download_new_user_command(update: Update, context: ContextTypes.DEFAUL
 
     try:
         query = """
-        SELECT * FROM Users
-        WHERE 
-            is_group_member = FALSE
-            OR email IS NULL
+        SELECT *
+        FROM Users
+        WHERE
+            is_group_member IS TRUE
+            AND (
+                email IS NULL
+                OR telegram_id IS NULL
+                OR (
+                    bydefi_id IS NULL
+                    AND blofin_uuid IS NULL
+                )
+            );
+
         """
         rows = await database.fetch_all(query)
 
