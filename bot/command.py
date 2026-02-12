@@ -42,7 +42,7 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 To Join:
 
-Step 1: Register with BloFin/Kucoin
+Step 1: Register with BloFin, ByDefi, or Weex
 Step 2: Submit your Email Address  
 Step 3: Gain Instant Access  
 🎥 <a href="https://www.youtube.com/watch?v=j0bg5GFmSNY">Watch this quick guide</a>
