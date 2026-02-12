@@ -1,4 +1,31 @@
-user = ["devlord", "dare", "1234"]
-for u in user:
-    uuid = u.replace("@","").strip() if u.startswith("@") and not u.isdigit() else u
-    print(uuid)
+from databases import Database
+from typing import List, Union, Dict
+from configs import DATABASE_URL
+import asyncio
+
+database = Database("mysql+aiomysql://root:ELtBlUTgWkoNPadAeqNJzIUBPrQtQElw@yamabiko.proxy.rlwy.net:16074/railway")
+
+
+
+async def init_db():
+    print("Connecting to the database...")
+    await database.connect()
+
+
+query = "ALTER TABLE Users ADD COLUMN weex_uuid VARCHAR(100) UNIQUE;"
+
+
+async def execute_query():
+    try:
+        await init_db()
+        await database.execute(query)
+        print("Query executed successfully.")
+    except Exception as e:
+        print(f"Error executing query: {e}")
+    finally:
+        await database.disconnect()
+
+
+if __name__ == "__main__":
+    asyncio.run(execute_query())
+

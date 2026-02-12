@@ -196,6 +196,7 @@ async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             AND (
                 bydefi_id IS NOT NULL
                 OR blofin_uuid IS NOT NULL
+                OR weex_uuid IS NOT NULL
             );
 
         """
@@ -248,6 +249,7 @@ async def download_new_user_command(update: Update, context: ContextTypes.DEFAUL
                 OR (
                     bydefi_id IS NULL
                     AND blofin_uuid IS NULL
+                    AND weex_uuid IS NULL   
                 )
             );
 
