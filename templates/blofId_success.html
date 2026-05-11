@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Success - CryptoGents</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --bg-color: #1a2d3a;
+            --card-bg: #25344a;
+            --button-bg: #ffb347;
+            --button-hover: #ffa500;
+            --text-main: #fff;
+            --text-blue: #4f8cff;
+            --text-green: #4CAF50;
+            --text-muted: #bfc9d9;
+            --success-bg: rgba(76, 175, 80, 0.1);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .verification-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.75rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .success-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .success-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, var(--text-green), #00ffcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .success-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            padding: 0 0.5rem;
+        }
+
+        .verification-details {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .verification-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .user-id-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-id-display {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-green);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            margin: 0.75rem 0;
+            word-break: break-all;
+        }
+
+        .next-steps {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 0 0.5rem;
+        }
+
+        .next-steps-title {
+            color: var(--text-blue);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .next-steps-desc {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .proceed-btn {
+            background: var(--button-bg);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 1rem;
+            width: 100%;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .proceed-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 179, 71, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0.75rem;
+            }
+
+            .main-container {
+                padding: 0 0.5rem;
+            }
+
+            .verification-card {
+                padding: 1.25rem;
+            }
+
+            .success-header {
+                margin-bottom: 1.5rem;
+            }
+
+            .success-title {
+                font-size: 1.5rem;
+            }
+
+            .success-subtitle {
+                font-size: 0.95rem;
+                padding: 0;
+            }
+
+            .verification-details {
+                padding: 1.25rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .verification-icon {
+                font-size: 2.25rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .user-id-label {
+                font-size: 0.8rem;
+            }
+
+            .user-id-display {
+                font-size: 1rem;
+                padding: 0.875rem;
+            }
+
+            .next-steps {
+                padding: 0;
+            }
+
+            .next-steps-desc {
+                font-size: 0.9rem;
+            }
+
+            .proceed-btn {
+                padding: 0.875rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .verification-card {
+                padding: 1rem;
+            }
+
+            .success-title {
+                font-size: 1.35rem;
+            }
+
+            .verification-details {
+                padding: 1rem;
+            }
+
+            .proceed-btn {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="verification-card">
+            <div class="success-header">
+                <h1 class="success-title">Verification Complete</h1>
+                <p class="success-subtitle">Your exchange account is now verified with CryptoGents</p>
+            </div>
+
+            <div class="verification-details">
+                <span class="verification-icon">✅</span>
+                <div class="user-id-label">Verified ID</div>
+                <div class="user-id-display">{{blofin_id}}</div>
+                <p style="color: var(--text-green); font-size: 0.95rem;">Account successfully linked</p>
+            </div>
+
+            <div class="next-steps">
+                <h2 class="next-steps-title">One Last Step</h2>
+                <p class="next-steps-desc">
+                    Please verify your email to activate all features and ensure secure access to your account.
+                </p>
+
+                <button class="proceed-btn" onclick="proceedToNext()">
+                    Verify Email Address
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function proceedToNext() {
+           const userId = "{{ user_id }}";
+            const username = "{{ username }}";
+            const blofin_id = "{{blofin_id}}";
+            const url = `/enter-email?user_id=${encodeURIComponent(userId)}&username=${encodeURIComponent(username)}&blofin_id=${encodeURIComponent(blofin_id)}`;
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

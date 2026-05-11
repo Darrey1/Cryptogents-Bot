@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloFin Verification</title>
+    <style>
+        :root {
+            --bg-color: #1a2d3a; /* Changed background color */
+            --card-bg: #25344a;
+            --button-bg: #ffb347; /* Changed button color */
+            --button-hover: #ffa500;
+            --text-main: #fff;
+            --text-blue: #4f8cff;
+            --text-green: #4CAF50;
+            --success-bg: rgba(76, 175, 80, 0.1);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .verification-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .card-title {
+            color: var(--text-blue);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-id-display {
+            background: rgba(0,0,0,0.2);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .success-message {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-green);
+            background: var(--success-bg);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .success-message .icon {
+            font-size: 1.2rem;
+        }
+
+        .registration-message {
+            margin-bottom: 1.5rem;
+        }
+
+        .proceed-message {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            color: #bfc9d9;
+        }
+
+        .proceed-btn {
+            background: var(--button-bg);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 1rem;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .proceed-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            .verification-card {
+                padding: 1rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .user-id-display {
+                font-size: 1.1rem;
+                padding: 0.8rem;
+            }
+
+            .proceed-btn {
+                padding: 0.8rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="verification-card">
+            <div class="card-title">Your Email Address</div>
+            
+            <div class="user-id-display">{{email}}</div>
+            
+            <div class="success-message">
+                <span class="icon">✅</span>
+                <span>Email Confirmation Successful!</span>
+            </div>
+            
+            <div class="registration-message">
+                <span>Your email have been confirmed</span>
+                <span>successfully, proceed to the next step</span>
+                <span>to get your invite link</span>
+            </div>
+            
+            <div class="proceed-message">
+                <span>👉</span>
+                <span>Click on the button below to proceed</span>
+            </div>
+            
+            <button class="proceed-btn" onclick="proceedToNext()">
+                Proceed to final step
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function proceedToNext() {
+           const userId = "{{ user_id }}";
+            const username = "{{ username }}";
+            const url = `/terms?user_id=${encodeURIComponent(userId)}&username=${encodeURIComponent(username)}`;
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

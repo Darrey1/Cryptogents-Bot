@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crypto Gents Lite - How To Join</title>
+  <style>
+    :root {
+      --bg-color: #232946; /* Changed background */
+      --card-bg: #2d3250;
+      --step-bg: #313866;
+      --button-bg: #ffb347; /* Changed button color */
+      --button-hover: #ffa500;
+      --button-text: #232946;
+      --text-main: #fff;
+      --text-blue: #4f8cff;
+      --text-muted: #bfc9d9;
+      --pattern-color: rgba(255,255,255,0.04);
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: url('data:image/svg+xml;utf8,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><g opacity="0.12"><path d="M30 5 L40 20 L30 55 L20 20 Z" stroke="white" stroke-width="2" fill="none"/><line x1="10" y1="40" x2="50" y2="40" stroke="white" stroke-width="2"/></g></svg>');
+      background-repeat: repeat;
+      background-size: 80px 80px;
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .main-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 400px;
+      margin: 2rem auto 0 auto;
+      padding: 0 1rem 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      width: 100%;
+      margin-bottom: 1.2rem;
+      padding: 1.2rem 1rem 1.5rem 1rem;
+    }
+    .card h2, .card h3 {
+      margin: 0 0 0.7rem 0;
+      font-size: 1.1rem;
+      color: var(--text-blue);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      margin: 0 0 1rem 0;
+      color: var(--text-main);
+      font-size: 0.98rem;
+      font-weight: 400;
+    }
+    .video-container {
+      width: 100%;
+      background: #232323;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 180px;
+      position: relative;
+    }
+    .video-container iframe, .video-container .video-error {
+      width: 100%;
+      height: 200px;
+      border: none;
+      background: #232323;
+      display: block;
+    }
+    .video-error {
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      height: 200px;
+      text-align: center;
+    }
+    .steps-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      width: 100%;
+      margin-bottom: 1.2rem;
+      padding: 1.2rem 1rem 1.5rem 1rem;
+    }
+    .steps-title {
+      color: var(--text-blue);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .step {
+      background: var(--step-bg);
+      border-radius: 8px;
+      margin-bottom: 0.7rem;
+      padding: 0.7rem 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .step:last-child {
+      margin-bottom: 0;
+    }
+    .step-label {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+      color: #fff;
+    }
+    .step-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      font-weight: 400;
+    }
+    .cta-btn {
+      width: 100%;
+      padding: 1rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      background: var(--button-bg);
+      color: var(--button-text);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: background 0.2s;
+      margin-top: 0.7rem;
+    }
+    .cta-btn:hover, .cta-btn:focus {
+      background: var(--button-hover);
+    }
+    @media (max-width: 500px) {
+      .main-container {
+        max-width: 98vw;
+        padding: 0 0.2rem 1.2rem 0.2rem;
+      }
+      .card, .steps-card {
+        padding: 0.8rem 0.5rem 1rem 0.5rem;
+      }
+      .video-container, .video-container iframe, .video-container .video-error {
+        height: 140px;
+        min-height: 120px;
+      }
+      .cta-btn {
+        padding: 0.8rem 0;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Tutorial Card -->
+    <div class="card">
+      <h2>Crypto Gents Sign Up Tutorial</h2>
+      <p>Hello {{ username | capitalize }} Watch the video below to understand how to join Crypto Gents, step by step.</p>
+      <div class="video-container">
+        <iframe 
+      title="Youtube Video"
+      src="https://www.youtube.com/embed/j0bg5GFmSNY?iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&autoplay=0&autohide=1"
+       loading="lazy"
+       allow="fullscreen; accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      frameBorder="0">
+    </iframe>
+      </div>
+   
+    </div>
+    <!-- Steps Card -->
+    <div class="steps-card">
+      <div class="steps-title">How To Join</div>
+      <div class="step">
+        <div class="step-label">Step 1</div>
+        <div class="step-desc">Register with BloFin, ByDefi, or Weex</div>
+      </div>
+      <div class="step">
+        <div class="step-label">Step 2</div>
+        <div class="step-desc">Insert your Email Address</div>
+      </div>
+      <div class="step">
+        <div class="step-label">Step 3</div>
+        <div class="step-desc">Gain Instant Access</div>
+      </div>
+    </div>
+    <button class="cta-btn" id="register-btn">Continue To Registration</button>
+  </div>
+  <script>
+    const registerBtn = document.getElementById("register-btn");
+      registerBtn.addEventListener("click", () => {
+      const userId = "{{ user_id }}";
+      const username = "{{ username }}";
+        const url = `/blofin?user_id=${encodeURIComponent(userId)}&username=${encodeURIComponent(username)}`;
+        window.location.href = url;
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gem Hunters Lite</title>
+  <style>
+    :root {
+      --bg-color: #1a2236; /* Changed background color */
+      --icon-bg: #2d3956;
+      --button-bg: #ffb347; /* Changed button color */
+      --button-hover: #ffa500;
+      --button-text: #222;
+      --text-main: #fff;
+      --text-highlight: #7ee8fa;
+      --pattern-color: rgba(255,255,255,0.04);
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Pattern background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: url('data:image/svg+xml;utf8,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><g opacity="0.12"><path d="M30 5 L40 20 L30 55 L20 20 Z" stroke="white" stroke-width="2" fill="none"/><line x1="10" y1="40" x2="50" y2="40" stroke="white" stroke-width="2"/></g></svg>');
+      background-repeat: repeat;
+      background-size: 80px 80px;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+    .container {
+      position: relative;
+      z-index: 1;
+      background: rgba(34, 40, 60, 0.85);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      padding: 2.5rem 2rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 340px;
+      width: 90vw;
+      margin: 2rem;
+    }
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--icon-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      border: 5px solid #fff;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .title {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      line-height: 1.1;
+    }
+    .title span {
+      color: var(--text-highlight);
+      font-weight: 700;
+    }
+    .cta-btn {
+      margin-top: 2rem;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      background: var(--button-bg);
+      color: var(--button-text);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: background 0.2s;
+    }
+    .cta-btn:hover, .cta-btn:focus {
+      background: var(--button-hover);
+    }
+    @media (max-width: 500px) {
+      .container {
+        padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+        max-width: 98vw;
+      }
+      .avatar {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 1rem;
+      }
+      .title {
+        font-size: 1.3rem;
+      }
+      .cta-btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="avatar">
+      <img id="user-pic" src="./static/img/cryptogent.jpg" alt="User Avatar">
+    </div>
+    <div class="title" id="user-title">
+      Welcome <span>User</span>
+    </div>
+    <div style="color: #aaa; margin-top: 0.5rem;" id="user-id">
+      Telegram ID: loading...
+    </div>
+    <button class="cta-btn" id="start-btn">Start Verification</button>
+  </div>
+
+  <!-- Telegram WebApp JS SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    (async () => {
+      const tg = window.Telegram.WebApp;
+      const user = tg.initDataUnsafe?.user;
+
+      if (user) {
+        const username = user.first_name || user.username || "User";
+
+        try {
+          const response = await fetch('https://cryto-gents.up.railway.app/check-status', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              user_id: user.id,
+              username: username
+            })
+          });
+
+          const result = await response.json();
+
+          if (result.redirect_url) {
+            window.location.href = result.redirect_url;
+            return; // stop execution after redirect
+          }
+
+        } catch (error) {
+          console.error("Fetch failed:", error);
+        }
+
+        document.getElementById("user-title").innerHTML = `Welcome <span>${username}</span>`;
+        document.getElementById("user-id").innerText = `Telegram ID: ${user.id}`;
+
+        const userPic = document.getElementById("user-pic");
+        userPic.src = user.photo_url || "./static/img/cryptogent.jpg";
+
+        const startBtn = document.getElementById("start-btn");
+        startBtn.addEventListener("click", () => {
+          const url = `/home?user_id=${encodeURIComponent(user.id)}&username=${encodeURIComponent(username)}`;
+          window.location.href = url;
+        });
+      } else {
+        document.getElementById("user-title").innerHTML = `Welcome <span>Guest</span>`;
+        document.getElementById("user-id").innerText = `Telegram ID: Unknown`;
+      }
+
+      tg.ready(); // Let Telegram know the app is ready
+    })(); // immediately invoked async function
+  });
+</script>
+
+</body>
+
+</html>

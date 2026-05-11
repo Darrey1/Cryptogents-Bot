@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <title>BloFin Sign Up</title>
+  <style>
+    :root {
+      --bg-color: #1e2a38; /* Changed background */
+      --card-bg: #27354a;
+      --button-bg: #ffb347; /* Changed button color */
+      --button-hover: #ffa500;
+      --button-disabled: #3a4a62;
+      --button-text: #1e2a38;
+      --text-main: #fff;
+      --text-blue: #4f8cff;
+      --text-muted: #bfc9d9;
+      --pattern-color: rgba(255,255,255,0.04);
+      --accent-yellow: #ffd600;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: url('data:image/svg+xml;utf8,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><g opacity="0.12"><path d="M30 5 L40 20 L30 55 L20 20 Z" stroke="white" stroke-width="2" fill="none"/><line x1="10" y1="40" x2="50" y2="40" stroke="white" stroke-width="2"/></g></svg>');
+      background-repeat: repeat;
+      background-size: 80px 80px;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    .main-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 400px;
+      margin: 2rem auto 0 auto;
+      padding: 0 1rem 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      width: 100%;
+      margin-bottom: 1.2rem;
+      padding: 1.2rem 1rem 1.5rem 1rem;
+    }
+    .card h2, .card h3 {
+      margin: 0 0 0.7rem 0;
+      font-size: 1.1rem;
+      color: var(--text-blue);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      margin: 0 0 1rem 0;
+      color: var(--text-main);
+      font-size: 0.98rem;
+      font-weight: 400;
+    }
+    .promo {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      margin-bottom: 0.7rem;
+    }
+    .promo-icon {
+      font-size: 1.2rem;
+      margin-top: 2px;
+    }
+    .promo-content {
+      flex: 1;
+    }
+    .promo-content strong {
+      color: var(--accent-yellow);
+      font-weight: 700;
+    }
+    .video-section {
+      background: var(--card-bg);
+      border-radius: 12px;
+      width: 100%;
+      margin-bottom: 1.2rem;
+      padding: 1.2rem 1rem 1.5rem 1rem;
+    }
+    .video-title {
+      color: var(--text-blue);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .video-container {
+      width: 100%;
+      background: #232323;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 180px;
+      position: relative;
+    }
+    .video-container video, .video-container iframe {
+      width: 100%;
+      height: 220px;
+      border: none;
+      background: #232323;
+      display: block;
+    }
+    .signup-section {
+      background: var(--card-bg);
+      border-radius: 12px;
+      width: 100%;
+      margin-bottom: 1.2rem;
+      padding: 1.2rem 1rem 1.5rem 1rem;
+    }
+    .instruction {
+    display: none;
+    background-color: #fff3cd;
+    color: #721c24;
+    padding: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    animation: pulse 1.5s infinite;
+  }
+  .progress-instruction {
+    display: none;
+    background-color: #fff3cd;
+    color: #721c24;
+    padding: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+
+    .signup-title {
+      color: var(--text-blue);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.7rem;
+    }
+    .signup-section p {
+      color: var(--text-main);
+      font-size: 0.98rem;
+      margin-bottom: 1.2rem;
+    }
+    .signup-link-card {
+      background: #22304a;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .signup-link-card .emoji {
+      font-size: 1.3rem;
+    }
+    .signup-link-content {
+      display: flex;
+      flex-direction: column;
+    }
+    .signup-link-title {
+      color: var(--text-blue);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+    .signup-link-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .verify-section {
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+    .verify-label {
+      color: var(--text-blue);
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .cta-btn {
+      width: 100%;
+      padding: 1rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      background: var(--button-bg);
+      color: var(--button-text);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: background 0.2s;
+      margin-top: 0.7rem;
+    }
+    .cta-btn:disabled {
+      background: var(--button-disabled);
+      color: #bfc9d9;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    .cta-btn:hover:not(:disabled), .cta-btn:focus:not(:disabled) {
+      background: var(--button-hover);
+    }
+    @media (max-width: 500px) {
+      .main-container {
+        max-width: 98vw;
+        padding: 0 0.2rem 1.2rem 0.2rem;
+      }
+      .card, .video-section, .signup-section {
+        padding: 0.8rem 0.5rem 1rem 0.5rem;
+      }
+      .video-container, .video-container video, .video-container iframe {
+        height: 140px;
+        min-height: 120px;
+      }
+      .cta-btn {
+        padding: 0.8rem 0;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<div class="main-container">
+  <!-- Promo Card -->
+  <div class="card">
+    <div class="promo">
+      <span class="promo-icon">📈</span>
+      <div class="promo-content">
+        <span style="color:var(--text-blue);font-weight:600;">Get the most out of trading by using <strong>BloFin</strong></span><br>
+        our <strong>non KYC partner exchange</strong> A solid platform that delivers a smooth, efficient experience every step of the way!
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Card -->
+  <div class="video-section">
+    <div class="video-title">How To Sign Up</div>
+    <div class="video-container">
+      <iframe 
+      title="Youtube Video"
+      src="https://www.youtube.com/embed/VeSGIIUjOhw?iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&autoplay=0&autohide=1"
+       loading="lazy"
+       allow="fullscreen; accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      frameBorder="0">
+    </iframe>
+    </div>
+  </div>
+
+  <!-- Sign Up Card -->
+  <div class="signup-section">
+    <div class="signup-title">Sign Up With Us</div>
+    <p>Choose your preferred exchange below, sign up, and locate your UID (User ID). You’ll need it in the next step for verification.</p>
+    <div class="signup-link-card" id="signupLink">
+      <span class="emoji">👉</span>
+      <div class="signup-link-content">
+        <span class="signup-link-title">Sign up with Blofin</span><br>
+        <span class="signup-link-desc">Click here to register</span>
+      </div>
+    </div>
+    <div class="signup-link-card" id="BydfiSignupLink">
+      <span class="emoji">👉</span>
+      <div class="signup-link-content">
+        <span class="signup-link-title">Sign up with Bydfi</span><br>
+        <!-- <span class="signup-link-desc">Click here to register</span> -->
+         <a href="https://partner.bydfi.com/register?vipCode=7EqnZj" target="_blank" class="signup-link-desc">Click here to register</a>
+      </div>
+    </div>
+
+    <div class="signup-link-card" id="WeexSignupLink">
+      <span class="emoji">👉</span>
+      <div class="signup-link-content">
+        <span class="signup-link-title">Sign up with Weex</span><br>
+        <!-- <span class="signup-link-desc">Click here to register</span> -->
+        <a href="https://www.weex.com/register?vipCode=cryptogents" target="_blank" class="signup-link-desc">Click here to register</a>
+      </div>
+    </div>
+
+
+     <div class="instruction" id="instructionBox"></div>
+
+
+    <div class="verify-section">
+      <div class="verify-label">
+        After registering click below to proceed<span class="emoji">👇</span>
+      </div>
+      <button class="cta-btn" id="verifyBtn">Verify</button>
+    </div>
+    <p class="verify-label" style="font-size: 13px;">If you already have an account<a href="https://t.me/CryptogentsSupport" target="_blank" style="color: #4f8cff;;">contact our support</a></p>
+  </div>
+</div>
+
+<script defer>
+  document.addEventListener("DOMContentLoaded", () => {
+    const signupLink = document.getElementById("signupLink");
+    const BydfiSignupLink = document.getElementById("BydfiSignupLink");
+    const instructionBox = document.getElementById("instructionBox");
+    const verifyBtn = document.getElementById("verifyBtn");
+    const WeexSignupLink = document.getElementById("WeexSignupLink");
+
+    signupLink.addEventListener("click", async () => {
+      const url = "https://partner.blofin.com/d/CryptoGents";
+
+      try {
+        await navigator.clipboard.writeText(url);
+        instructionBox.innerText = "Link copied! Please open your browser and paste it to sign up. After getting your UID, return here to continue the registration.";
+        instructionBox.style.display = "block";
+      } catch (err) {
+        alert("Unable to copy link. Please manually copy this link:\n" + url);
+      }
+    });
+
+    // BydfiSignupLink.addEventListener("click", async () => {
+    //   const url = "https://partner.bydfi.com/register?vipCode=CryptoGentsRF";
+
+    //   try {
+    //     await navigator.clipboard.writeText(url);
+    //      instructionBox.innerText = "Link copied! Please open your browser and paste it to sign up. After getting your UID, return here to continue the registration.";
+    //     instructionBox.style.display = "block";
+    //   } catch (err) {
+    //     alert("Unable to copy link. Please manually copy this link:\n" + url);
+    //   }
+    // });
+
+    // WeexSignupLink.addEventListener("click", async () => {
+    //   const url = "https://www.weex.com/register?vipCode=cryptogents";
+
+    //   try {
+    //     await navigator.clipboard.writeText(url);
+    //      instructionBox.innerText = "Link copied! Please open your browser and paste it to sign up. After getting your UID, return here to continue the registration.";
+    //     instructionBox.style.display = "block";
+    //   } catch (err) {
+    //     alert("Unable to copy link. Please manually copy this link:\n" + url);
+    //   }
+    // });
+
+    verifyBtn.addEventListener("click", () => {
+      const userId = "{{ user_id }}"; 
+      const username = "{{ username }}";
+
+      if (userId && username) {
+        const url = `/enter-uuid?user_id=${encodeURIComponent(userId)}&username=${encodeURIComponent(username)}`;
+        window.location.href = url;
+      } else {
+        alert("User data missing. Please try again.");
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

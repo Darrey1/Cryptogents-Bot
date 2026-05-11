@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disclaimer Acceptance</title>
+    <style>
+        :root {
+            --bg-color: #1a2d3a; /* Changed from dark blue */
+            --card-bg: #25344a;
+            --button-bg: #ffb347; /* Changed from blue */
+            --button-hover: #ffa500;
+            --text-main: #fff;
+            --text-blue: #4f8cff;
+            --link-color: #3498db;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .disclaimer-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .card-title {
+            color: var(--text-blue);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .disclaimer-content {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .disclaimer-link {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .disclaimer-link:hover {
+            text-decoration: underline;
+        }
+
+        .instruction-text {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            color: #bfc9d9;
+        }
+
+        .accept-btn {
+            background: var(--button-bg);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 1rem;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .accept-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+        }
+
+        .accept-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            .disclaimer-card {
+                padding: 1rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .accept-btn {
+                padding: 0.8rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="disclaimer-card">
+            <div class="card-title">Read And Accept The Disclaimer</div>
+            
+            <div class="disclaimer-content">
+                Now let's accept the 
+                <a href="#" class="disclaimer-link">DISCLAIMER</a>.
+            </div>
+            
+            <div class="instruction-text">
+                <span>👉</span>
+                <span>Click on ACCEPT DISCLAIMER when you've read and accepted the disclaimer</span>
+            </div>
+            
+            <button class="accept-btn" id="acceptBtn" onclick="acceptDisclaimer()">
+                Accept Disclaimer
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function acceptDisclaimer() {
+            const acceptBtn = document.getElementById('acceptBtn');
+            acceptBtn.disabled = true;
+            acceptBtn.textContent = 'Processing...';
+            
+            // Simulate processing
+            setTimeout(() => {
+                window.location.href = "/"
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
