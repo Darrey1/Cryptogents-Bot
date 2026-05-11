@@ -3,7 +3,7 @@ from typing import List, Union, Dict
 from configs import DATABASE_URL
 import asyncio
 
-database = Database("mysql+aiomysql://root:ELtBlUTgWkoNPadAeqNJzIUBPrQtQElw@yamabiko.proxy.rlwy.net:16074/railway")
+database = Database("")
 
 
 
